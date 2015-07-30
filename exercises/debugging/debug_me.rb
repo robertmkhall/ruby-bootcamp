@@ -8,6 +8,8 @@ john = create_person('John', 'Mair', 'Creator of Pry')
 david = create_person('David', 'Rodriguez', 'Creator of pry-byebug')
 matz = create_person('Yukihiro', 'Matsumoto', 'Creator of Ruby')
 
+binding.pry
+
 people = [ john, david, matz ].shuffle
 
 people.each do |person|
