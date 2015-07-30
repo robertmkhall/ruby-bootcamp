@@ -3,7 +3,7 @@ def fibonacciComputer
 
   (1..98).each do |index|
     fib = fibSeq[index-1] + fibSeq[index]
-    fibSeq.push(fib)
+    fibSeq << fib
   end
 
   fibSeq

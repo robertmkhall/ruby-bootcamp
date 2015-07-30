@@ -1,5 +1,4 @@
 def combineList(list1, list2) 
-  expectedSize = list1.size + list2.size 
   combined = []
 
   cnt = 0
