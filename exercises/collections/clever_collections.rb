@@ -8,5 +8,10 @@ prices = {
 
 shopping_list = [:orange, :apple, :apple, :cereal, :bread]
 
+def calcTotal(prices, shoppingList)
+  '%.2f' % shoppingList.inject(0.00) { |total, item| prices[item.to_s] + total } 
+end
 
-#TODO - print out in pounds and pence the total for the shopping list
+total = calcTotal(prices, shopping_list)
+puts "The price of the shopping list is: #{total}"
+
