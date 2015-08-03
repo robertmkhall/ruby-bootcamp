@@ -19,7 +19,7 @@ the shopping list in pounds and pence
 =end 
 
 def replaceInvalidChars(price)
-  decimalised = price[/[.]/] ? price : price + ".00" 
+  decimalised = price[/[.]/] ? price : "0." + price 
   decimalised.gsub(/[£p]/, '').to_f
 end
 

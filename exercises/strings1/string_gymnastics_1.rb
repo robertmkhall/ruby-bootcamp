@@ -1,3 +1,5 @@
+# encoding: ISO-8859-1
+
 prices = {
       'orange' => 10,
       'apple' => 20,
@@ -27,9 +29,8 @@ the shopping list in pounds and pence
 
 def calcTotal(prices, shoppingList)
   filtered = shoppingList.split.select { |item| prices.has_key?(item) }
-  filtered.inject(0.00) { |total, item| prices[item] + total } 
-  filtered.to_f
+  "%.2f" % filtered.inject(0.00) { |total, item| prices[item] + total } 
 end
 
 total = calcTotal(prices, shopping_list)
-puts "The price of the shopping list is: #{total}"
+puts "The price of the shopping list is: £#{total}"
