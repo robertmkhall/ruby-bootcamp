@@ -4,8 +4,6 @@ require 'mocha/test_unit'
 
 describe Game do
   subject(:game) { described_class.new }
-  let(:play_1_request_message) { "Enter play for player 1 (Rock, Paper or Scissors)\n" }
-  let(:play_2_request_message) { "Enter play for player 2 (Rock, Paper or Scissors - or Computer if you wish to play against the Computer)\n"}
 
   describe '#output_winner' do
     context 'when the plays are different' do
@@ -25,13 +23,13 @@ describe Game do
     end
   end
 
-  describe '#get_first_play' do
+  describe '#first_play' do
     before do
-      allow(subject).to receive(:gets).and_return('Rock')
+      allow(subject).to receive(:gets).once.and_return('Rock')
     end
 
     it 'asks user for input' do
-      expect{ subject.first_play }.to output(play_1_request_message).to_stdout
+      expect{ subject.first_play }.to output(Game::FIRST_PLAYER_QUESTION).to_stdout
     end
 
     it 'reads user input' do
@@ -41,13 +39,14 @@ describe Game do
   end
 
   describe '#second_play' do
-    it 'asks user for input' do
-      expect{ subject.second_play }.to output(play_2_request_message).to_stdout
-    end
 
     context 'playing against a human component' do
       before do
         allow(subject).to receive(:gets).and_return('Rock')
+      end
+
+      it 'asks user for input' do
+        expect{ subject.second_play }.to output(Game::SECOND_PLAYER_QUESTION).to_stdout
       end
 
       it 'reads user input' do
@@ -75,7 +74,7 @@ describe Game do
       end
 
       it 'the correct winner will be displayed after both plays entered' do
-        expected_output = play_1_request_message + play_2_request_message + "Player 2 wins: Paper beats Rock\n"
+        expected_output = Game::FIRST_PLAYER_QUESTION + Game::SECOND_PLAYER_QUESTION + "Player 2 wins: Paper beats Rock\n"
         expect{subject.play_game}.to output(expected_output).to_stdout
       end
     end
@@ -83,13 +82,17 @@ describe Game do
     context 'a human plays the computer' do
       before do
         allow(subject).to receive(:gets).and_return('Scissors', 'Computer')
+
+        PlayFactory.expects(:get_play).at_most_once.with('Scissors').returns(Play.new('scissors'))
+        PlayFactory.expects(:get_play).at_most_once.with('Computer').returns(Play.new('paper'))
+      end
+
+      after do
+        PlayFactory.unstub(:get_play)
       end
 
       it 'the correct winner will be displayed after both plays entered' do
-        PlayFactory.expects(:get_play).at_most_once.with('Scissors').returns(Play.new('scissors'))
-        PlayFactory.expects(:get_play).at_most_once.with('Computer').returns(Play.new('paper'))
-
-        expected_output = play_1_request_message + play_2_request_message + "Player 1 wins: Scissors beats Paper\n"
+        expected_output = Game::FIRST_PLAYER_QUESTION + Game::SECOND_PLAYER_QUESTION + "Player 1 wins: Scissors beats Paper\n"
         expect{subject.play_game}.to output(expected_output).to_stdout
       end
     end

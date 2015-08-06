@@ -1,4 +1,7 @@
 class Game
+  FIRST_PLAYER_QUESTION = "Enter play for player 1 (Rock, Paper or Scissors)\n"
+  SECOND_PLAYER_QUESTION = "Enter play for player 2 (Rock, Paper or Scissors - or Computer if you wish to play against the Computer)\n"
+
   def output_winner(play1_val, play2_val)
     play1 = PlayFactory.get_play(play1_val)
     play2 = PlayFactory.get_play(play2_val)
@@ -14,12 +17,12 @@ class Game
   end
 
   def first_play
-    puts 'Enter play for player 1 (Rock, Paper or Scissors)'
+    puts FIRST_PLAYER_QUESTION
     gets.chomp
   end
 
   def second_play
-    puts 'Enter play for player 2 (Rock, Paper or Scissors - or Computer if you wish to play against the Computer)'
+    puts SECOND_PLAYER_QUESTION
     gets.chomp
   end
 

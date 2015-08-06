@@ -33,11 +33,6 @@ end
 class PlayFactory
 
   def self.get_play(play_value)
-    case
-    when Play.winner_rules.key?(play_value.capitalize)
-      Play.new(play_value.capitalize)
-    else
-      Play.random
-    end
+    Play.winner_rules.key?(play_value.capitalize) ? Play.new(play_value.capitalize) : Play.random
   end
 end
