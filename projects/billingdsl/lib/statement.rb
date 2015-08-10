@@ -1,19 +1,17 @@
-class Statement
+require 'billingdsl'
+require 'call_charges'
 
-  attr_accessor :date, :due
-
-  # attr_reader :attributes
+class Statement < Billingdsl::DSL
 
   def initialize(&block)
-    @attributes = {}
-
-    instance_eval &block
+    instance_eval &block if block_given?
   end
 
-  def method_missing(name, *args, &block)
-    attributes[name] = args[0]
+  def call_charges(&block)
+    if block_given?
+      @attributes[:call_charges] = CallCharges.new(&block)
+    else
+      @attributes[:call_charges]
+    end
   end
-
-  # alias_method :date, :date=
-  alias_method :due, :due=
 end
