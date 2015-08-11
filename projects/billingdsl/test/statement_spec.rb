@@ -30,7 +30,7 @@ describe Statement do
     expect(call_charges.calls.size).to eql(1)
 
     call = call_charges.calls[0]
-    expect(call.tel_number).to eql('07716393769')
+    expect(call.called).to eql('07716393769')
     expect(call.date.to_s).to eql('2015-02-01')
     expect(call.duration).to eql('00:23:03')
     expect(call.cost).to eql(1.13)
@@ -49,8 +49,7 @@ describe Statement do
     "callCharges": {
       "calls": [
         { "called": "07716393769", "date": "2015-01-26", "duration": "00:23:03", "cost": 1.13 },
-        { "called": "07716393769", "date": "2015-01-26", "duration": "00:23:03", "cost": 0.20 }
-
+        { "called": "07716393769", "date": "2015-02-12", "duration": "00:23:03", "cost": 0.20 }
       ]
     }
   }
@@ -59,14 +58,20 @@ describe Statement do
     statement = Statement.new do
       date Date.parse('2015-01-11')
       due Date.parse('2015-01-25')
-      from Date.parse('2015-01-16')
-      to Date.parse('2015-01-25')
+      from Date.parse('2015-01-26')
+      to Date.parse('2015-02-25')
+      total 1.23
 
       call_charges do
         call '07716393769' do
-          date Date.parse('2015-02-01')
+          date Date.parse('2015-01-26')
           duration "00:23:03"
           cost 1.13
+        end
+        call '07716393769' do
+          date Date.parse('2015-02-12')
+          duration "00:23:03"
+          cost 0.20
         end
       end
     end

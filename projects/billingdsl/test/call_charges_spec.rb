@@ -23,7 +23,7 @@ describe CallCharges do
   end
 
   def eval_call(call, *args)
-    expect(call.tel_number).to eql(args[0])
+    expect(call.called).to eql(args[0])
     expect(call.date.to_s).to eql(args[1])
     expect(call.duration).to eql(args[2])
     expect(call.cost).to eql(args[3])

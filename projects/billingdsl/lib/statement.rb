@@ -1,11 +1,8 @@
 require 'billingdsl'
 require 'call_charges'
+require 'period'
 
 class Statement < Billingdsl::DSL
-
-  def initialize(&block)
-    instance_eval &block if block_given?
-  end
 
   def call_charges(&block)
     if block_given?
@@ -13,5 +10,35 @@ class Statement < Billingdsl::DSL
     else
       @attributes[:call_charges]
     end
+  end
+
+  def from(date = nil)
+    if date
+      @attributes[:period] ||= Period.new(&block)
+      @attributes[:period].attributes[:from] = date
+    else
+      @attributes[:period].attributes[:from]
+    end
+  end
+
+  def to(date = nil)
+    if date
+      @attributes[:period] ||= Period.new(&block)
+      @attributes[:period].attributes[:to] = date
+    else
+      @attributes[:period].attributes[:to]
+    end
+  end
+
+  def period(&block)
+    if block_given?
+      @attributes[:period] = Period.new(&block)
+    else
+      @attributes[:period]
+    end
+  end
+
+  def self_to_json(attr, indent_size, indent)
+    "{\n" + super + "\n}"
   end
 end
