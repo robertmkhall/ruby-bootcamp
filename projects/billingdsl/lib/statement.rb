@@ -1,44 +1,41 @@
 require 'billingdsl'
 require 'call_charges'
-require 'period'
+require 'json'
 
 class Statement < Billingdsl::DSL
+  extend AttributeSupport
+
+  define_attribute :call_charges
+  define_attribute :date
+  define_attribute :due
+  define_attribute :from
+  define_attribute :to
 
   def call_charges(&block)
     if block_given?
-      @attributes[:call_charges] = CallCharges.new(&block)
+      @call_charges = CallCharges.new(&block)
     else
-      @attributes[:call_charges]
+      @call_charges
     end
   end
 
-  def from(date = nil)
-    if date
-      @attributes[:period] ||= Period.new(&block)
-      @attributes[:period].attributes[:from] = date
-    else
-      @attributes[:period].attributes[:from]
-    end
+  def total
+    @call_charges.calls.inject(0.00) {|result, call| result + call.cost}
   end
 
-  def to(date = nil)
-    if date
-      @attributes[:period] ||= Period.new(&block)
-      @attributes[:period].attributes[:to] = date
-    else
-      @attributes[:period].attributes[:to]
-    end
-  end
-
-  def period(&block)
-    if block_given?
-      @attributes[:period] = Period.new(&block)
-    else
-      @attributes[:period]
-    end
-  end
-
-  def self_to_json(attr, indent_size, indent)
-    "{\n" + super + "\n}"
+  def to_json
+    JSON.pretty_generate(
+        {statement: {
+            date: @date,
+            due: @due,
+            period: {
+                from: @from,
+                to: @to
+            },
+            total: total,
+            callCharges: {
+                calls: @call_charges.to_json
+            }
+        }})
   end
 end

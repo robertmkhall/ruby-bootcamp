@@ -36,7 +36,7 @@ describe Statement do
     expect(call.cost).to eql(1.13)
   end
 
-  it 'will output accurate json' do
+  it 'will generate accurate json' do
     expected_json = '{
   "statement": {
     "date": "2015-01-11",
@@ -45,7 +45,7 @@ describe Statement do
       "from": "2015-01-26",
       "to": "2015-02-25"
     },
-    "total": 1.23,
+    "total": 1.33,
     "callCharges": {
       "calls": [
         { "called": "07716393769", "date": "2015-01-26", "duration": "00:23:03", "cost": 1.13 },
@@ -60,7 +60,6 @@ describe Statement do
       due Date.parse('2015-01-25')
       from Date.parse('2015-01-26')
       to Date.parse('2015-02-25')
-      total 1.23
 
       call_charges do
         call '07716393769' do
