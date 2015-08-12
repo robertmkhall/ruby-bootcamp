@@ -3,7 +3,6 @@ require 'call_charges'
 require 'json'
 
 class Statement < Billingdsl::DSL
-  extend AttributeSupport
 
   define_attribute :call_charges
   define_attribute :date
@@ -25,7 +24,7 @@ class Statement < Billingdsl::DSL
 
   def to_hash
     {statement: {
-        date: @date,
+        generated: @date,
         due: @due,
         period: {
             from: @from,

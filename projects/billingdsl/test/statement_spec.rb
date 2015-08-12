@@ -38,7 +38,7 @@ describe Statement do
   it 'will generate accurate json' do
     expected_json = '{
   "statement": {
-    "date": "2015-01-11",
+    "generated": "2015-01-11",
     "due": "2015-01-25",
     "period": {
       "from": "2015-01-26",
