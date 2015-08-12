@@ -1,22 +1,16 @@
 require 'billingdsl'
 require 'call'
 
-class CallCharges
-
-  extend AttributeSupport
+class CallCharges < Billingdsl::DSL
 
   define_attribute :calls
-
-  def initialize(&block)
-    instance_eval &block if block_given?
-  end
 
   def call(tel_number, &block)
     @calls ||= []
     @calls << Call.new(tel_number, &block)
   end
 
-  def to_json
+  def to_hash
     @calls.map(&:to_hash)
   end
 end

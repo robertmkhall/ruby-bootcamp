@@ -11,6 +11,6 @@ class Call < Billingdsl::DSL
   def initialize(called, &block)
     @called = called
 
-    instance_eval &block if block_given?
+    super(&block)
   end
 end

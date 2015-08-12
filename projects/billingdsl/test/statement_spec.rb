@@ -45,11 +45,21 @@ describe Statement do
       "from": "2015-01-26",
       "to": "2015-02-25"
     },
-    "total": 1.33,
+    "total": 1.34,
     "callCharges": {
       "calls": [
-        { "called": "07716393769", "date": "2015-01-26", "duration": "00:23:03", "cost": 1.13 },
-        { "called": "07716393769", "date": "2015-02-12", "duration": "00:23:03", "cost": 0.20 }
+        {
+          "called": "07716393769",
+          "date": "2015-01-26",
+          "duration": "00:23:03",
+          "cost": 1.13
+        },
+        {
+          "called": "07716393769",
+          "date": "2015-02-12",
+          "duration": "00:23:03",
+          "cost": 0.21
+        }
       ]
     }
   }
@@ -70,7 +80,7 @@ describe Statement do
         call '07716393769' do
           date Date.parse('2015-02-12')
           duration "00:23:03"
-          cost 0.20
+          cost 0.21
         end
       end
     end

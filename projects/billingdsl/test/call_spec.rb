@@ -22,17 +22,22 @@ describe Call do
     expect(call.called).to eql('077163935433')
   end
 
-  it 'will generate accurate json' do
+  it 'will generate an accurate hash' do
     call = Call.new('07716393769') do
       date Date.parse('2015-02-01')
       duration "00:23:03"
-      cost 1.13
+      cost 1.1
     end
 
-    expected_json = "{ \"called\": \"07716393769\", \"date\": \"2015-02-01\", \"duration\": \"00:23:03\", \"cost\": 1.13}"
+    expected_hash = {
+        called: call.called,
+        date: call.date,
+        duration: call.duration,
+        cost: call.cost
+    }
 
-    actual_json = call.to_json
+    actual_hash = call.to_hash
 
-    expect(actual_json).to eql(expected_json)
+    expect(actual_hash).to eql(expected_hash)
   end
 end

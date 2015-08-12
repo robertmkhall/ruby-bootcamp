@@ -20,22 +20,25 @@ class Statement < Billingdsl::DSL
   end
 
   def total
-    @call_charges.calls.inject(0.00) {|result, call| result + call.cost}
+    @call_charges.calls.inject(0) {|result, call| result + call.cost}
+  end
+
+  def to_hash
+    {statement: {
+        date: @date,
+        due: @due,
+        period: {
+            from: @from,
+            to: @to
+        },
+        total: total.round(2),
+        callCharges: {
+            calls: @call_charges.to_hash
+        }
+    }}
   end
 
   def to_json
-    JSON.pretty_generate(
-        {statement: {
-            date: @date,
-            due: @due,
-            period: {
-                from: @from,
-                to: @to
-            },
-            total: total,
-            callCharges: {
-                calls: @call_charges.to_json
-            }
-        }})
+    JSON.pretty_generate(to_hash)
   end
 end
