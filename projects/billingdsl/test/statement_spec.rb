@@ -1,6 +1,5 @@
 require_relative '../lib/statement'
 require 'date'
-require 'active_support/all'
 
 describe Statement do
 

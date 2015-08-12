@@ -42,3 +42,9 @@ class Statement < Billingdsl::DSL
     JSON.pretty_generate(to_hash)
   end
 end
+
+class Fixnum
+  def days
+    self
+  end
+end
