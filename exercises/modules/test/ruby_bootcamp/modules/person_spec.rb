@@ -11,9 +11,6 @@ describe RubyBootcamp::Modules::Person do
     end
 
     it 'will not output the time' do
-      expected_time = Time.now
-      Timecop.freeze(expected_time)
-
       person = RubyBootcamp::Modules::Person.new('')
 
       expect { person.tell_me_the_time }.to output("hello, sorry i'm not a robot and i don't have a watch\n").to_stdout
