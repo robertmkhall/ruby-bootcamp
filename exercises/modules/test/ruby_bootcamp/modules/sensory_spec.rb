@@ -2,36 +2,36 @@ require_relative '../../../lib/ruby_bootcamp/modules/sensory'
 require_relative '../../../lib/ruby_bootcamp/modules/person'
 require_relative '../../../lib/ruby_bootcamp/modules/robot'
 
-RSpec.shared_examples 'a vocaliser' do
-  let(:vocaliser) { described_class.new('') }
+RSpec.shared_examples 'a talker' do
+  let(:talker) { described_class.new('') }
 
   describe '#say' do
     it 'will output message in lowercase' do
-      expect { vocaliser.say('Something Funny') }.to output("something funny\n").to_stdout
+      expect { talker.say('Something Funny') }.to output("something funny\n").to_stdout
     end
   end
 
   describe '#shout' do
     it 'will output message in uppercase' do
-      expect { vocaliser.shout('Something Funny') }.to output("SOMETHING FUNNY!!!\n").to_stdout
+      expect { talker.shout('Something Funny') }.to output("SOMETHING FUNNY!!!\n").to_stdout
     end
   end
 
   describe 'greeting' do
     it 'will return a sample of the available greetings' do
-      expect(Vocaliser::DEFAULT_GREETINGS).to include(vocaliser.greeting)
+      expect(Talker::DEFAULT_GREETINGS).to include(talker.greeting)
     end
   end
 
   describe 'farewell' do
     it 'will return a sample of the available greetings' do
-      expect(Vocaliser::DEFAULT_GOODBYES).to include(vocaliser.farewell)
+      expect(Talker::DEFAULT_GOODBYES).to include(talker.farewell)
     end
   end
 
-  describe 'is a vocaliser' do
-    it 'will be a vocaliser' do
-      expect(vocaliser.kind_of?(Vocaliser)).to eql(true)
+  describe 'is a talker' do
+    it 'will be a talker' do
+      expect(talker.kind_of?(Talker)).to eql(true)
     end
   end
 end
@@ -96,12 +96,12 @@ RSpec.shared_examples 'a mover' do
 end
 
 RSpec.describe RubyBootcamp::Modules::Person do
-  it_behaves_like 'a vocaliser'
+  it_behaves_like 'a talker'
   it_behaves_like 'a mover'
 end
 
 RSpec.describe RubyBootcamp::Modules::Robot do
-  it_behaves_like 'a vocaliser'
+  it_behaves_like 'a talker'
   it_behaves_like 'a mover'
 end
 

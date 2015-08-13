@@ -3,7 +3,7 @@ require_relative 'sensory'
 module RubyBootcamp
   module Modules
     class Robot
-      include Vocaliser, Mover
+      include Talker, Mover
 
       def initialize(name)
         @name = name

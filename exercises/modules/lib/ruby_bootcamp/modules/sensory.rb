@@ -1,4 +1,4 @@
-module Vocaliser
+module Talker
 
   DEFAULT_GREETINGS = ['hello', 'good day', "what's up", 'yo', 'hi', 'sup', 'hey']
   DEFAULT_GOODBYES = ['goodbye', 'see you later', 'in a while crocodile', 'l8rs', 'bye for now']
