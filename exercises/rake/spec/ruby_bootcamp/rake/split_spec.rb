@@ -3,7 +3,7 @@ require 'ruby_bootcamp/rake/split'
 describe RubyBootcamp::Rake::Split do
   describe '#==' do
     subject do
-      described_class.new(0,25, :value)
+      described_class.new(0, 25, :value)
     end
 
     context 'other is not a split' do
@@ -28,7 +28,7 @@ describe RubyBootcamp::Rake::Split do
 
     context 'lower and upper bounds are the same' do
       it 'returns true' do
-        other = described_class.new(subject.lower,subject.upper, :value)
+        other = described_class.new(subject.lower, subject.upper, :value)
         expect(subject).to eq(other)
       end
     end
