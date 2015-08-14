@@ -22,14 +22,14 @@ describe 'tasks.rake' do
   describe 'tasks:list' do
 
     context 'a valid file path is provided' do
-
-      let(:test_dir) { 'random_dir' }
+      let(:test_dir) { 'random_dir/' }
       let(:expected_entries) { ['file1.jpg', 'some-other.txt', 'generic.doc', 'another.txt'] }
+      let(:expected_txt_entries) { ['some-other.txt', 'another.txt'] }
 
       before do
         allow(Dir).to receive(:exists?).with(test_dir).and_return(true)
-        allow(Dir).to receive(:glob).with(test_dir).and_return(expected_entries)
-        allow(Dir).to receive(:glob).with([test_dir, '.txt']).and_return(expected_entries)
+        allow(Dir).to receive(:glob).with(test_dir + '*').and_return(expected_entries)
+        allow(Dir).to receive(:glob).with(test_dir + '.txt').and_return(expected_entries)
       end
 
       after do
@@ -38,17 +38,19 @@ describe 'tasks.rake' do
       end
 
       it 'outputs all the file names' do
-        expected_output = expected_entries.inject('') { |result, entry| result += "#{entry}\n" }
+        expected_output = format_expected_entries(expected_entries)
 
         expect { subject.invoke(test_dir) }.to output(expected_output).to_stdout
       end
 
       it 'outputs all the .txt file names' do
-        expected_output = expected_entries.select { |entry| entry.end_with?('.txt') }.inject('') do |result, entry|
-          result += "#{entry}\n"
-        end
+        expected_output = format_expected_entries(expected_txt_entries)
 
         expect { subject.invoke(test_dir, '.txt') }.to output(expected_output).to_stdout
+      end
+
+      def format_expected_entries(entries)
+        expected_entries.inject('') { |result, entry| result += "#{entry}\n" }
       end
     end
 

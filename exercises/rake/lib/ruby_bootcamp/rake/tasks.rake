@@ -10,7 +10,7 @@ namespace :tasks do
 
     begin
       if Dir.exists?(path)
-        Dir.glob([path, pattern]).each { |r| puts r }
+        Dir.glob(path + pattern).each { |r| puts r }
       else
         puts "Path '#{path}' not found!"
       end
