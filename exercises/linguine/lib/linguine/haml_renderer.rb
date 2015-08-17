@@ -10,12 +10,10 @@ class HamlRenderer
   def render(view, args)
     view_path = "#{@base_dir}/resources/views/#{view}.haml"
 
-    begin
-      template = File.open(view_path).read
-      engine = Haml::Engine.new(template)
-      engine.render(Object.new, args)
-    rescue
-      raise HtmlRenderingException.new(view_path)
-    end
+    raise HtmlRenderingException.new("View file does not exist at '#{view_path}'") unless File.exists? view_path
+
+    template = File.open(view_path).read
+    engine = Haml::Engine.new(template)
+    engine.render(Object.new, args)
   end
 end
