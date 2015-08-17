@@ -1,15 +1,20 @@
 require 'faraday'
 require 'json'
-# require 'bing_translator'
 
 class BingTranslator
 
-  ACCESS_TOKEN_URI = "https://datamarket.accesscontrol.windows.net/"
+  TRANSLATOR_URI = 'http://api.microsofttranslator.com/'
+
+  ACCESS_TOKEN_URI = 'https://datamarket.accesscontrol.windows.net/'
+  CLIENT_ID = 'linguine_1000'
+  CLIENT_SECRET = 'vpgnTSjxeuGnxnr1MA0oJgkG0xzovPYoIzJnFXQoZzk='
+  SCOPE = 'http://api.microsofttranslator.com'
+  GRANT_TYPE = 'client_credentials'
 
   def translate(text)
 
-    conn = Faraday.new(:url => 'http://api.microsofttranslator.com/') do |faraday|
-      faraday.request :url_encoded # form-encode POST params
+    conn = Faraday.new(:url => TRANSLATOR_URI) do |faraday|
+      faraday.request :url_encoded
     end
 
     conn.get do |req|
@@ -30,10 +35,10 @@ class BingTranslator
     end
 
     response = conn.post 'v2/OAuth2-13',
-              {:client_id => 'linguine_1000',
-               :client_secret => 'vpgnTSjxeuGnxnr1MA0oJgkG0xzovPYoIzJnFXQoZzk=',
-               :scope => 'http://api.microsofttranslator.com',
-               :grant_type => 'client_credentials'}
+              {:client_id => CLIENT_ID,
+               :client_secret => CLIENT_SECRET,
+               :scope => SCOPE,
+               :grant_type => GRANT_TYPE}
 
     json_response = JSON.parse(response.env[:body])
 
