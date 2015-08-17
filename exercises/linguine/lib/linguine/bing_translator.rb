@@ -1,8 +1,10 @@
 require 'faraday'
 require 'json'
+require 'nokogiri'
 
 class BingTranslator
 
+  TRANSLATOR_AUTH_PREFIX = 'Bearer '
   TRANSLATOR_URI = 'http://api.microsofttranslator.com/'
 
   ACCESS_TOKEN_URI = 'https://datamarket.accesscontrol.windows.net/'
@@ -11,18 +13,22 @@ class BingTranslator
   SCOPE = 'http://api.microsofttranslator.com'
   GRANT_TYPE = 'client_credentials'
 
-  def translate(text)
+  def translate(text, from, to)
 
-    conn = Faraday.new(:url => TRANSLATOR_URI) do |faraday|
-      faraday.request :url_encoded
-    end
+    conn = Faraday.new(:url => TRANSLATOR_URI)
 
-    conn.get do |req|
-      req.url '/v2/Http.svc/Translate'
+    response = conn.get do |req|
+      req.url '/v2/Http.svc/Translate' # todo - use URL util to grab from one string
       req.params['text'] = text
-      req.params['from'] = 'en'
-      req.params['to'] = 'de'
+      req.params['from'] = from
+      req.params['to'] = to
+      req.headers['Authorization'] = TRANSLATOR_AUTH_PREFIX + access_token[:token]
+      req.headers['Content-Type'] = 'text/html'
     end
+
+    doc = Nokogiri::XML(response.env[:body])
+    doc.remove_namespaces!
+    doc.at_xpath('//string').text
   end
 
   def access_token
@@ -34,7 +40,7 @@ class BingTranslator
       faraday.adapter Faraday.default_adapter # make requests with Net::HTTP
     end
 
-    response = conn.post 'v2/OAuth2-13',
+    response = conn.post 'v2/OAuth2-13', # todo - use URL util to grab from one string
               {:client_id => CLIENT_ID,
                :client_secret => CLIENT_SECRET,
                :scope => SCOPE,
@@ -42,10 +48,8 @@ class BingTranslator
 
     json_response = JSON.parse(response.env[:body])
 
-    @access_token = {token: json_response['access_token'], expires_in: json_response['expires_in']}
-    @access_token
+    token_expiry = Time.now + json_response['expires_in'].to_i
+
+    @access_token = {token: json_response['access_token'], expires_in: token_expiry}
   end
 end
-
-translator = BingTranslator.new
-translator.access_token

@@ -7,8 +7,9 @@ class App < Linguine
     attr_accessor :html_renderer
   end
 
-  def initialize(html_renderer)
+  def initialize(html_renderer, translator)
     App::html_renderer = html_renderer
+    super(translator)
   end
 
   page '/' do
