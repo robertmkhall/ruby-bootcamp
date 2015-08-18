@@ -7,7 +7,7 @@ describe Linguine do
   let(:translator) { BingTranslator.new }
   let(:renderer) { HamlRenderer.new }
 
-  subject(:linguine) { (Class.new(described_class)).new(renderer, translator) }
+  subject(:linguine) { (Class.new(described_class)).new(renderer, translator, 'en') }
 
   describe '.page' do
     it 'will cache the page' do
@@ -31,7 +31,7 @@ describe Linguine do
     end
   end
 
-  describe '.render' do
+  describe '#render' do
     let(:view) { 'some_view.haml' }
     let(:args) { {heading: 'some heading value'} }
     let(:rendered_value) { 'rendered html' }
@@ -41,36 +41,18 @@ describe Linguine do
     end
 
     it 'will call the renderer delegate' do
-      expect(subject.class.render(view, args)).to eql(rendered_value)
+      expect(subject.render(view, args)).to eql(rendered_value)
     end
   end
 
-  describe '#translate_html' do
+  describe '#page_content' do
     let(:path) { 'home' }
     let(:expected_translation) { 'some translated text' }
     let(:expected_page_block) { proc { 'It does something' } }
+    let(:language_extension) {'de'}
 
     before do
       subject.class.page(path, &expected_page_block)
-    end
-
-    context 'language translation is required' do
-      before do
-        allow(translator).to receive(:translate).with(expected_page_block.call, Linguine::DEFAULT_HTML_LANG, 'de')
-                                 .and_return(expected_translation)
-      end
-
-      it 'will translate the html' do
-        language_extension = '.de'
-
-        expect(subject.translate_html(path + language_extension)).to eql(expected_translation)
-      end
-    end
-
-    context 'language translation not required' do
-      it 'will display the default html' do
-        expect(subject.translate_html(path)).to eql(expected_page_block.call)
-      end
     end
 
     context 'unknown page found' do
@@ -84,7 +66,25 @@ describe Linguine do
       end
 
       it 'will display an unknown page error' do
-        expect(subject.translate_html(unknown_url)).to eql(expected_html)
+        expect(subject.page_content(unknown_url, 'en')).to eql(expected_html)
+      end
+    end
+
+    context 'language translation not required' do
+      it 'will display the default html' do
+        expect(subject.page_content(path, nil)).to eql(expected_page_block.call)
+      end
+    end
+
+    context 'language translation is required' do
+      before do
+        allow(translator).to receive(:translate)
+                                 .with(expected_page_block.call, from: Linguine::ENGLISH, to: language_extension)
+                                 .and_return(expected_translation)
+      end
+
+      it 'will translate the html' do
+        expect(subject.page_content(path, language_extension)).to eql(expected_translation)
       end
     end
   end

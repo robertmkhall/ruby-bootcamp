@@ -3,4 +3,9 @@ require_relative 'lib/linguine/haml_renderer'
 require_relative 'lib/linguine/bing_translator'
 
 
-run App.new(HamlRenderer.new, BingTranslator.new)
+App.translator = BingTranslator.new
+App.html_renderer = HamlRenderer.new
+App.default_language = Linguine::ENGLISH
+
+
+run App

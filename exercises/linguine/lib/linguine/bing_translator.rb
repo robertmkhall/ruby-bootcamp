@@ -15,7 +15,7 @@ class BingTranslator
   SCOPE = 'http://api.microsofttranslator.com'
   GRANT_TYPE = 'client_credentials'
 
-  def translate(text, from, to)
+  def translate(text, from:, to:)
     uri = URI.parse TRANSLATOR_URI
     conn = Faraday.new(:url => extract_host(uri))
 

@@ -2,16 +2,21 @@ require 'rack/builder'
 
 class Linguine
 
-  DEFAULT_HTML_LANG = 'en'
+  ENGLISH = 'en'
   UNKNOWN_URL = 'unknown_url'
 
-  attr_reader :translator
+  attr_reader :translator, :html_renderer, :default_language
 
   class << self
-    attr_accessor :pages, :html_renderer
+    attr_accessor :pages, :html_renderer, :translator
+    attr_writer :default_language
+
+    def call env
+      new(html_renderer, translator, default_language).call(env)
+    end
 
     def page(*path, &block)
-      path.each {|path_arg| pages[path_arg] = block}
+      path.each { |path_arg| pages[path_arg] = block }
     end
 
     def pages
@@ -19,20 +24,39 @@ class Linguine
       @pages
     end
 
-    def render(view, args)
-      @html_renderer.render(view, args)
+    def default_language
+      @default_language || ENGLISH
     end
   end
 
-  def initialize(html_renderer, translator)
-    self.class.html_renderer = html_renderer
+  def initialize(html_renderer, translator, default_language)
+    @html_renderer = html_renderer
     @translator = translator
+    @default_language = default_language
   end
 
   def call(env)
     path = env['REQUEST_PATH']
 
-    ['200', {'Content-Type' => 'text/html'}, [translate_html(path)]]
+    local_extension = local_extension(path)
+    adjusted_path = remove_locale_extension(path)
+
+    page_content = page_content(adjusted_path, local_extension)
+
+    ['200', {'Content-Type' => 'text/html'}, [page_content]]
+  end
+
+  def page_content(page_id, local_extension)
+    if pages[page_id]
+      source_content = instance_eval(&pages[page_id])
+      local_extension ? translate_page_content(source_content, local_extension) : source_content
+    else
+      unknown_url(page_id)
+    end
+  end
+
+  def remove_locale_extension(path)
+    path.sub(/\.\w+$/, '')
   end
 
   def pages
@@ -40,27 +64,15 @@ class Linguine
   end
 
   def render(view, args)
-    self.class.render(view, args)
+    html_renderer.render(view, args)
   end
 
-  def translate_html(path)
-    language_code = language_code(path)
-    default_html = default_html(path, language_code)
-
-    if default_html
-      language_code.empty? ? default_html : translator.translate(default_html, DEFAULT_HTML_LANG, language_code)
-    else
-      unknown_url(path)
-    end
+  def translate_page_content(page_content, local_extension)
+    translator.translate(page_content, from: default_language, to: local_extension)
   end
 
-  def default_html(path, language_code)
-    adjusted_path = path.sub(".#{language_code}", '')
-    pages[adjusted_path].call if pages[adjusted_path]
-  end
-
-  def language_code(path)
-    File.extname(path).sub('.', '')
+  def local_extension(path)
+    path[/\.(\w+$)/, 1]
   end
 
   def unknown_url(url)

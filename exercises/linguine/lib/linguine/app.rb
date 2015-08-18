@@ -1,13 +1,12 @@
 require_relative 'linguine'
-require 'haml'
 
 class App < Linguine
 
   page '/', '/home' do
-    render('index', {heading: 'Welcome To RobCorp'})
+    render('index', heading: 'Welcome To RobCorp')
   end
 
   page '/about' do
-    render('about', {heading: 'This is the website for RobCorp'})
+    render('about', heading: 'This is the website for RobCorp')
   end
 end

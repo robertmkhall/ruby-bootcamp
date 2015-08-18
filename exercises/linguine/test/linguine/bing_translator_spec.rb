@@ -33,7 +33,7 @@ describe BingTranslator do
                 :headers => {'Authorization' => BingTranslator::TRANSLATOR_AUTH_PREFIX + token})
           .to_return(:body => "<string>#{translated_text}</string>")
 
-      expect(subject.translate(original_text, from_lang, to_lang)).to eql(translated_text)
+      expect(subject.translate(original_text, from: from_lang, to: to_lang)).to eql(translated_text)
     end
   end
 
