@@ -13,7 +13,7 @@ describe BingTranslator do
   before do
     Timecop.freeze(expected_time)
 
-    stub_request(:post, BingTranslator::ACCESS_TOKEN_URI + 'v2/OAuth2-13') # todo - replace with one string
+    stub_request(:post, BingTranslator::ACCESS_TOKEN_URI)
         .with(:body => {:client_id => BingTranslator::CLIENT_ID,
                         :client_secret => BingTranslator::CLIENT_SECRET,
                         :scope => BingTranslator::SCOPE,
@@ -28,7 +28,7 @@ describe BingTranslator do
     let(:to_lang) { 'de' }
 
     it 'will translate the web page' do
-      stub_request(:get, BingTranslator::TRANSLATOR_URI + 'v2/Http.svc/Translate')
+      stub_request(:get, BingTranslator::TRANSLATOR_URI)
           .with(:query => {text: original_text, from: from_lang, to: to_lang},
                 :headers => {'Authorization' => BingTranslator::TRANSLATOR_AUTH_PREFIX + token})
           .to_return(:body => "<string>#{translated_text}</string>")

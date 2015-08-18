@@ -3,12 +3,15 @@ require 'rack/builder'
 class Linguine
 
   DEFAULT_HTML_LANG = 'en'
+  UNKNOWN_URL = 'unknown_url'
+
+  attr_reader :translator
 
   class << self
     attr_accessor :pages, :html_renderer
 
-    def page(path, &block)
-      pages[path] = block
+    def page(*path, &block)
+      path.each {|path_arg| pages[path_arg] = block}
     end
 
     def pages
@@ -40,21 +43,27 @@ class Linguine
     self.class.render(view, args)
   end
 
-  #todo break up this method
   def translate_html(path)
     language_code = language_code(path)
-    adjusted_path = path.sub(".#{language_code}", '')
+    default_html = default_html(path, language_code)
 
-    known_path = pages[adjusted_path]
-    base_html = known_path ? pages[adjusted_path].call : unknown_url(adjusted_path)
-    language_code.empty? || !known_path ? base_html : @translator.translate(base_html, DEFAULT_HTML_LANG, language_code)
+    if default_html
+      language_code.empty? ? default_html : translator.translate(default_html, DEFAULT_HTML_LANG, language_code)
+    else
+      unknown_url(path)
+    end
+  end
+
+  def default_html(path, language_code)
+    adjusted_path = path.sub(".#{language_code}", '')
+    pages[adjusted_path].call if pages[adjusted_path]
   end
 
   def language_code(path)
     File.extname(path).sub('.', '')
   end
 
-  def unknown_url(path)
-    "Unknown url #{path}"
+  def unknown_url(url)
+    render(UNKNOWN_URL, {content: "Url '#{url}' is not recognised"})
   end
 end
