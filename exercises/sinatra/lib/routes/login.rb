@@ -11,7 +11,7 @@ class Login < Sinatra::Base
 
   post '/' do
     redirect '/bill' if authenticate
-    redirect '/login'
+    redirect '/'
   end
 
   def initialize(options = {authenticator: Authenticator.new})

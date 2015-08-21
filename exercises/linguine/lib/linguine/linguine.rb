@@ -14,7 +14,7 @@ class Linguine
     def call env
       new(html_renderer, translator, default_language).call(env)
     end
-
+ 
     def page(*path, &block)
       path.each { |path_arg| pages[path_arg] = block }
     end
