@@ -3,7 +3,7 @@ require_relative '../authenticator'
 
 class Login < Sinatra::Base
 
-  attr_accessor :authenticator
+  attr_reader :authenticator
 
   get '/' do
     slim :login
@@ -14,14 +14,10 @@ class Login < Sinatra::Base
     redirect '/login'
   end
 
+  def initialize(options = {authenticator: Authenticator.new})
+    super
 
-  get '/failed_login' do
-    'Failed login'
-  end
-
-
-  def authenticator
-    @authenticator ||= Authenticator.new # todo inject dependencies
+    @authenticator = options[:authenticator]
   end
 
   def authenticate

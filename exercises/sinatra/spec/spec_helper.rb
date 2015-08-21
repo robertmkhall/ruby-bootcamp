@@ -1,3 +1,4 @@
 # $LOAD_PATH.unshift("#{__dir__}/../lib")
-# require 'rack/test'
-# require_relative 'contexts/sinatra_application_context'
+require 'rack/test'
+
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
