@@ -2,6 +2,8 @@ require 'slim'
 
 shared_context :slim_templates do
 
+  let(:page) { session.browser }
+
   def templates_dir
     "#{__dir__}/../../../views/"
   end

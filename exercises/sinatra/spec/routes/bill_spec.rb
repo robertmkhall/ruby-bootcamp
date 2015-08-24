@@ -17,7 +17,7 @@ describe Bill do
 
   describe 'get /' do
     it 'renders the bill' do
-      expect_any_instance_of(described_class).to receive(:slim).with(:bill, locals: bill_hash)
+      expect_any_instance_of(described_class).to receive(:slim).with(:bill, locals: {bill: bill_hash})
 
       get('/')
     end

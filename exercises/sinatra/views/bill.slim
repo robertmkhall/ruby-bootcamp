@@ -1,0 +1,57 @@
+html
+  body
+    table#summary
+      tr
+        td Generated
+        td =bill['statement']['generated']
+      tr
+        td Due
+        td =bill['statement']['due']
+      tr
+        td From
+        td =bill['statement']['period']['from']
+      tr
+        td To
+        td =bill['statement']['period']['to']
+      tr
+        td Total
+        td =bill['total']
+
+    p
+    table#subscriptions
+      - bill['package']['subscriptions'].each do |sub|
+        tr
+          td =sub['type']
+          td =sub['name']
+          td =sub['cost']
+      tr
+        td Total
+        td =bill['package']['total']
+
+    p
+    table#calls
+      - bill['callCharges']['calls'].each do |call|
+        tr
+          td =call['called']
+          td =call['duration']
+          td =call['cost']
+      tr
+        td Total
+        td =bill['callCharges']['total']
+
+    p
+    table#store
+      - bill['skyStore']['rentals'].each do |item|
+        tr
+          td Rental
+          td =item['title']
+          td =item['cost']
+
+      - bill['skyStore']['buyAndKeep'].each do |item|
+        tr
+          td Purchase
+          td =item['title']
+          td =item['cost']
+      tr
+        td Total
+        td =bill['skyStore']['total']

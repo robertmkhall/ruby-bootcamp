@@ -35,7 +35,7 @@ describe Login do
     it 'redirects to the login page' do
       post '/', username: valid_username, password: invalid_password
 
-      expect(last_response).to redirect_to('/login')
+      expect(last_response).to redirect_to('/')
     end
   end
 end

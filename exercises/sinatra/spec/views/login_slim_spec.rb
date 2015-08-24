@@ -4,12 +4,11 @@ describe 'login.slim' do
 
   include_context :slim_templates
 
-  subject(:page) { LoginPage.new(render) }
-  let(:page_session) { page.browser }
+  subject(:session) { LoginPage.new(render) }
 
   it 'displays the login fields' do
-    expect(page_session).to have_field('username')
-    expect(page_session).to have_field('password')
-    expect(page_session).to have_button('Login')
+    expect(page).to have_field('username')
+    expect(page).to have_field('password')
+    expect(page).to have_button('Login')
   end
 end

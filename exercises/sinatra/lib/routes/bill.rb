@@ -6,7 +6,7 @@ class Bill < Sinatra::Base
   attr_reader :billing_service
 
   get '/' do
-    slim :bill, locals: billing_service.bill
+    slim :bill, locals: { bill: billing_service.bill }
   end
 
   def initialize(options = {billing_service: BillingService.new})
