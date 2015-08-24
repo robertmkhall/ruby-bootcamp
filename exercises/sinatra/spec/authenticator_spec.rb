@@ -1,15 +1,13 @@
 require_relative '../lib/authenticator'
+require_relative 'spec_helper'
 
 describe Authenticator do
+
+  include_context :authentication
 
   subject(:authenticator) { described_class.new }
 
   describe '#authenticator' do
-    let(:valid_username) { 'robertmkhall' }
-    let(:valid_password) { 'password' }
-    let(:invalid_username) { 'invalid_username' }
-    let(:invalid_password) { 'invalid_password' }
-
     it 'will verify the credentials' do
       expect(subject.authenticate(valid_username, valid_password)).to be_truthy
     end

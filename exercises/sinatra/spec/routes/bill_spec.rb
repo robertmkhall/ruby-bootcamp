@@ -6,6 +6,7 @@ require_relative '../../lib/billing_service'
 describe Bill do
 
   include_context :sinatra_application
+  include_context :authentication
 
   let(:app_options) { {billing_service: billing_service} } # overrides app_options passed to Bill.new (see shared context)
   let(:bill_hash) { {name: 'Some dude', date: '01/01/2016', amount: 999.99} }
@@ -16,10 +17,24 @@ describe Bill do
   end
 
   describe 'get /' do
-    it 'renders the bill' do
-      expect_any_instance_of(described_class).to receive(:slim).with(:bill, locals: {bill: bill_hash})
+    context 'user already logged in' do
+      before do
+        allow_any_instance_of(described_class).to receive(:logged_in).and_return(true)
+      end
 
-      get('/')
+      it 'renders the bill' do
+        expect_any_instance_of(described_class).to receive(:slim).with(:bill, locals: {bill: bill_hash})
+
+        get('/')
+      end
+    end
+
+    context 'user not logged in' do
+      it 'renders the bill' do
+        get('/')
+
+        expect(last_response).to redirect_to('/login')
+      end
     end
   end
 end
