@@ -8,16 +8,18 @@ describe Authenticator do
   subject(:authenticator) { described_class.new }
 
   describe '#authenticator' do
-    it 'will verify the credentials' do
-      expect(subject.authenticate(valid_username, valid_password)).to be_truthy
+    context 'the credentials will be accepted' do
+      it 'will accept valid credentials' do
+        expect(subject.authenticate(valid_username, valid_password)).to be_truthy
+      end
     end
 
     context 'the credentials will be refused' do
-      it 'an invalid username and invalid password will be refused' do
+      it 'will refuse an invalid username and password' do
         expect(subject.authenticate(invalid_username, invalid_password)).to be_falsey
       end
 
-      it 'an valid username but invalid password will be refused' do
+      it 'will refuse a valid username with an invalid password' do
         expect(subject.authenticate(valid_username, invalid_password)).to be_falsey
       end
     end

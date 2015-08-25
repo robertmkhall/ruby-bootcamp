@@ -14,6 +14,10 @@ module Sinatra
       def logged_in
         session[:username]
       end
+
+      def clear_session
+        session[:username] = nil
+      end
     end
 
     def self.registered(app)

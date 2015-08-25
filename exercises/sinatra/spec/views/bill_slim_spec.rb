@@ -36,10 +36,10 @@ describe 'bill.slim' do
     expect(session.row(table: 'calls', row: 3)).to have_columns('07716393888', '00:15:03', 1.87)
     expect(session.row(table: 'calls', row: 4)).to have_columns('Total', '5.22')
 
-    expect(page).to have_table('store')
-    expect(session.row(table: 'store', row: 1)).to have_columns('Rental', '50 Shades of Grey', 4.99)
-    expect(session.row(table: 'store', row: 2)).to have_columns('Purchase', 'Thats what she said', 9.99)
-    expect(session.row(table: 'store', row: 3)).to have_columns('Purchase', 'Broke back mountain', 9.99)
-    expect(session.row(table: 'store', row: 4)).to have_columns('Total', '24.97')
+    expect(page).to have_table('purchases')
+    expect(session.row(table: 'purchases', row: 1)).to have_columns('Rental', '50 Shades of Grey', 4.99)
+    expect(session.row(table: 'purchases', row: 2)).to have_columns('Purchase', 'Thats what she said', 9.99)
+    expect(session.row(table: 'purchases', row: 3)).to have_columns('Purchase', 'Broke back mountain', 9.99)
+    expect(session.row(table: 'purchases', row: 4)).to have_columns('Total', '24.97')
   end
 end

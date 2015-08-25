@@ -11,12 +11,6 @@ describe Login do
 
   describe 'get /' do
     context 'no previous logins' do
-      it 'renders the login page' do
-        expect_any_instance_of(described_class).to receive(:slim).with(:login)
-
-        get '/login'
-      end
-
       it 'redirects to the login page' do
         get '/'
 
@@ -34,6 +28,37 @@ describe Login do
         get '/'
 
         expect(last_response).to redirect_to('/bill')
+      end
+    end
+  end
+
+  describe 'get /login' do
+    it 'renders the login page' do
+      expect_any_instance_of(described_class).to receive(:slim).with(:login)
+
+      get '/login'
+    end
+  end
+
+  describe 'get /logout' do
+    context 'no previous logins' do
+      it 'redirects to the login page' do
+        get 'logout'
+
+        expect(last_response).to redirect_to('/login')
+      end
+    end
+
+    context 'user logged in' do
+      before do
+        # Simulate previous login
+        post '/login', username: valid_username, password: valid_password
+      end
+
+      it 'redirects to the login page' do
+        get '/logout'
+
+        expect(last_response).to redirect_to('/login')
       end
     end
   end

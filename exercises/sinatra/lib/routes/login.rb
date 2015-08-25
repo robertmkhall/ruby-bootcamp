@@ -16,9 +16,14 @@ class Login < Sinatra::Base
     slim :login
   end
 
+  get '/logout' do
+    clear_session
+    redirect '/login'
+  end
+
   post '/login' do
     redirect '/bill' if authenticated
-    redirect '/'
+    redirect back
   end
 
   def initialize(options = {authenticator: Authenticator.new})

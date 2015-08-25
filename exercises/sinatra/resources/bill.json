@@ -55,7 +55,7 @@
       { "title": "50 Shades of Grey", "cost": 4.99 }
     ],
     "buyAndKeep": [
-      { "title": "That's what she said", "cost": 9.99 },
+      { "title": "Thats what she said", "cost": 9.99 },
       { "title": "Broke back mountain", "cost": 9.99 }
     ],
     "total": 24.97
