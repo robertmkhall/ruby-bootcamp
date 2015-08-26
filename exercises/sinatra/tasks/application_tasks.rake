@@ -1,8 +1,11 @@
+$LOAD_PATH.unshift("#{__dir__}/../spec", "#{__dir__}/../lib")
 require_relative 'support/rack_runner'
+require 'routes/bill'
+
 module Application
   class << self
-    def start
-      @app = Rack::Runner.start "#{__dir__}/../config.ru"
+    def start(args)
+      @app = Rack::Runner.start "#{__dir__}/../config.ru", args
     end
 
     def stop
@@ -18,8 +21,8 @@ end
 namespace :application do
 
   desc 'start application'
-  task :start do
-    Application.start
+  task :start, [:rack_env] do |task, args|
+    Application.start args
     at_exit do
       Application.stop
     end

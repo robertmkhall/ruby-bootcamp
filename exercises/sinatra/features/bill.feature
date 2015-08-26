@@ -20,11 +20,11 @@ Feature: Bill page
       | talk      | Sky Talk Anytime       | 5.0  |
       | broadband | Fibre Unlimited        | 16.4 |
       | Total     | 71.4                   |      |
-#    And these 'calls' will be displayed:
-#      | 07716393769 | 00:23:03 | 2.13 |
-#      | 07716393999 | 00:08:11 | 1.22 |
-#      | 07716393888 | 00:15:03 | 1.87 |
-#      | Total       | 5.22     |      |
+    And these 'calls' will be displayed:
+      | 07716393769 | 00:23:03 | 2.13 |
+      | 07716393999 | 00:08:11 | 1.22 |
+      | 07716393888 | 00:15:03 | 1.87 |
+      | Total       | 5.22     |      |
     And these 'purchases' will be displayed:
       | Rental   | 50 Shades of Grey   | 4.99 |
       | Purchase | Thats what she said | 9.99 |

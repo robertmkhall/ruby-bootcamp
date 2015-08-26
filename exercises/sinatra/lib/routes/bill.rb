@@ -8,11 +8,30 @@ class Bill < Sinatra::Base
 
   register Sinatra::SessionAuth
 
+  class << self
+    # attr_writer :billing_service
+
+    def billing_service=(billing_service)
+      puts "billing service = #{billing_service}"
+
+      @billing_service = billing_service
+    end
+
+    def billing_service
+      @billing_service ||= BillingService.new
+    end
+
+    def call env
+      # puts "billing service = #{@billing_service}"
+      new({billing_service: billing_service}).call(env)
+    end
+  end
+
   get '/' do
     check_login { slim :bill, locals: { bill: billing_service.bill } }
   end
 
-  def initialize(options = {billing_service: BillingService.new})
+  def initialize(options = {billing_service: Bill.billing_service})
     super
 
     @billing_service = options[:billing_service]
