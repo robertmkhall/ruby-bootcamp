@@ -1,12 +1,19 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
-gem 'rack-test'
 gem 'slim'
-gem 'rspec'
-gem 'cucumber', require: 'cucumber/rake/task'
-gem 'page_magic', '1.0.0.alpha3'
-gem 'watir-webdriver'
-gem 'shotgun'
-gem 'simplecov'
-gem 'waitforit'
+
+group :development do
+  gem 'rack-test', require: 'rack/test'
+  gem 'rspec', require: %w(rspec rspec/core/rake_task)
+  gem 'cucumber', require: 'cucumber/rake/task'
+  gem 'page_magic', '1.0.0.alpha3'
+  gem 'watir-webdriver'
+  gem 'shotgun'
+  gem 'simplecov'
+  gem 'waitforit'
+  gem 'childprocess'
+  gem 'thin'
+  gem 'wait'
+  gem 'rake'
+end
