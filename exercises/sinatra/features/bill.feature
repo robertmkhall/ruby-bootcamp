@@ -9,7 +9,7 @@ Feature: Bill page
   Scenario: the bill will be displayed when the user logs in
     Given I am already logged in
     When I go to the 'Bill' page
-    Then these bill summary details will be displayed:
+    Then these bill 'summary' details will be displayed:
       | Generated | 2015-01-11 |
       | Due       | 2015-01-25 |
       | From      | 2015-01-26 |
