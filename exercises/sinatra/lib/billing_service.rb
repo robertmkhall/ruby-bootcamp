@@ -1,8 +1,8 @@
-# require 'pathname'
+require 'addressable/template'
 
 class BillingService
 
-  BASE_URI = 'http://localhost:9494/bill'
+  BASE_URI = 'http://localhost:9393/bill'
 
   attr_reader :base_uri
 

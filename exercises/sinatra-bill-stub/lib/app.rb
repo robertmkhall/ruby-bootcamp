@@ -5,8 +5,8 @@ set :show_exceptions, :after_handler
 
 class App < Sinatra::Base
 
-  FROM_DATE = '01-08-2015'
-  TO_DATE = '31-08-2015'
+  FROM_DATE = '2015-01-26'
+  TO_DATE = '2015-02-25'
 
   BILL = {
       statement: {
