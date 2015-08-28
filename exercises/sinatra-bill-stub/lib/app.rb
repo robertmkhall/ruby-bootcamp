@@ -47,12 +47,7 @@ class App < Sinatra::Base
   }
 
   get '/bill' do
-    case 0[params[:from], params[:to]]
-      when [FROM_DATE, TO_DATE]
-        JSON.generate(ids: %w{10000002})
-      else
-        JSON.generate(ids: %w{10000001 10000002})
-    end
+    JSON.generate(ids: %w{10000001 10000002})
   end
 
   get '/bill/:bill_id' do

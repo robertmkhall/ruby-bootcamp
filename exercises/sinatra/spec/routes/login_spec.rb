@@ -1,5 +1,4 @@
-require_relative '../../lib/routes/login'
-require_relative '../spec_helper'
+require 'routes/login'
 
 describe Login do
 

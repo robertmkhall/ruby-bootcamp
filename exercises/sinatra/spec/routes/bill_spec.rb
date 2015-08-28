@@ -1,6 +1,5 @@
-require_relative '../spec_helper'
-require_relative '../../lib/routes/bill'
-require_relative '../../lib/billing_service'
+require 'routes/bill'
+require 'billing_service'
 
 describe Bill do
 

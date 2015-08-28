@@ -39,6 +39,12 @@ describe App do
     #
     # end
 
+    it 'returns a bill json' do
+      get "/bill/#{valid_bill_id}"
+
+      expect(last_response.body).to eq(expected_bill_response)
+    end
+
     it 'returns a 404' do
       get "/bill/#{invalid_bill_id}"
 
@@ -46,7 +52,7 @@ describe App do
     end
   end
 
-  describe 'get /bill/:username' do
+  describe 'get /account/:username/bill' do
     before do
       allow(billing_service).to receive(:bill_ids).with(valid_username).and_return(bill_ids_response)
       allow(billing_service).to receive(:bill_ids).with(invalid_username).and_raise(BillingAccountNotFound)

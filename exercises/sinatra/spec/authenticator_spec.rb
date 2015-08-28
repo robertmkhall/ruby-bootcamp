@@ -1,5 +1,4 @@
-require_relative '../lib/authenticator'
-require_relative 'spec_helper'
+require 'authenticator'
 
 describe Authenticator do
 

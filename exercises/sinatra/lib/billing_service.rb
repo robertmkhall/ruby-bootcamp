@@ -1,27 +1,36 @@
-require 'pathname'
-require 'json'
-require 'rest-client'
+# require 'pathname'
 
 class BillingService
 
-  BILLS_QUERY_URI = 'http://localhost:9494/account/:username/bill'
-  BILL_REQUEST_URI = 'http://localhost:9494/account/:username/bill/:bill_id'
+  BASE_URI = 'http://localhost:9494/bill'
 
-  attr_reader :request_uri
+  attr_reader :base_uri
 
-  def initialize(request_uri = BILLS_QUERY_URI)
-    @request_uri = request_uri
+  def initialize(base_uri = BASE_URI)
+    @base_uri = base_uri
+  end
+
+  def query_uri
+    "#{base_uri}{?username}"
+  end
+
+  def request_uri
+    "#{base_uri}/{bill_id}"
   end
 
   def bill(username)
     current_bill_id = current_bill_id(username)
-    current_bill = RestClient.get(BILL_REQUEST_URI.sub(':username', username).sub(':bill_id', current_bill_id))
+
+    translated_url = Addressable::Template.new(request_uri).expand({'bill_id': current_bill_id}).to_s
+    current_bill = RestClient.get(translated_url)
 
     JSON.parse(current_bill)
   end
 
   def bill_ids(username)
-    response = RestClient.get(BILLS_QUERY_URI.sub(':username', username))
+    translated_url = Addressable::Template.new(query_uri).partial_expand({'username': username}).pattern
+    response = RestClient.get(translated_url)
+
     JSON.parse(response)['ids']
   end
 

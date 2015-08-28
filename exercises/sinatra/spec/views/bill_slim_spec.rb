@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 describe 'bill.slim' do
 
   include_context :slim_templates

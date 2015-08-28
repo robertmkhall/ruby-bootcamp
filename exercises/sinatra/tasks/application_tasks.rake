@@ -22,6 +22,8 @@ namespace :application do
 
   desc 'start application'
   task :start, [:rack_env] do |task, args|
+    puts "rack_env: #{args[:rack_env]}"
+
     Application.start args
     at_exit do
       Application.stop

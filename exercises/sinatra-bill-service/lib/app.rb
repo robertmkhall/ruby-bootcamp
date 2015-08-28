@@ -10,7 +10,7 @@ class App < Sinatra::Base
     @billing_service = options[:billing_service]
   end
 
-  get '/bill/:username' do
+  get '/bill' do
     begin
       billing_service.bill_ids(params[:username])
     rescue BillingAccountNotFound
@@ -18,7 +18,7 @@ class App < Sinatra::Base
     end
   end
 
-  get '/bill/:username/:bill_id' do
+  get '/bill/:bill_id' do
     begin
       billing_service.bill(params[:bill_id])
     rescue BillNotFound

@@ -5,7 +5,7 @@ require 'app'
 
 Sinatra::Base.set :root, __dir__
 
-configure(:testing) {
+configure(:development) {
   Bill.billing_service = BillingService.new("http://localhost:9494/bill")
 }
 
