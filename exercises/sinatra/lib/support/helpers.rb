@@ -4,14 +4,14 @@ module Sinatra
   module SessionAuth
     module Helpers
       def check_login(&block)
-        if logged_in && block_given?
+        if username && block_given?
           yield block
         else
           redirect '/login'
         end
       end
 
-      def logged_in
+      def username
         session[:username]
       end
 

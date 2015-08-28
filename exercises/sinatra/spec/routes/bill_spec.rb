@@ -2,7 +2,6 @@ require_relative '../spec_helper'
 require_relative '../../lib/routes/bill'
 require_relative '../../lib/billing_service'
 
-
 describe Bill do
 
   include_context :sinatra_application
@@ -19,7 +18,7 @@ describe Bill do
   describe 'get /' do
     context 'user already logged in' do
       before do
-        allow_any_instance_of(described_class).to receive(:logged_in).and_return(true)
+        allow_any_instance_of(described_class).to receive(:username).and_return(true)
       end
 
       it 'renders the bill' do

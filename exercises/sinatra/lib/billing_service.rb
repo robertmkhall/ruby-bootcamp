@@ -1,20 +1,31 @@
 require 'pathname'
 require 'json'
+require 'rest-client'
 
 class BillingService
 
-  ROOT = Pathname.new(File.expand_path(__dir__))
-  BILL_PATH = ROOT.join("../resources").join('bill.json').to_s
+  BILLS_QUERY_URI = 'http://localhost:9494/account/:username/bill'
+  BILL_REQUEST_URI = 'http://localhost:9494/account/:username/bill/:bill_id'
 
-  attr_reader :bill_path
+  attr_reader :request_uri
 
-  def initialize(bill_path = BILL_PATH)
-    puts "bill path = #{bill_path}"
-    @bill_path = bill_path
+  def initialize(request_uri = BILLS_QUERY_URI)
+    @request_uri = request_uri
   end
 
-  def bill
-    file = File.read(bill_path)
-    JSON.parse(file)
+  def bill(username)
+    current_bill_id = current_bill_id(username)
+    current_bill = RestClient.get(BILL_REQUEST_URI.sub(':username', username).sub(':bill_id', current_bill_id))
+
+    JSON.parse(current_bill)
+  end
+
+  def bill_ids(username)
+    response = RestClient.get(BILLS_QUERY_URI.sub(':username', username))
+    JSON.parse(response)['ids']
+  end
+
+  def current_bill_id(username)
+    bill_ids(username).last
   end
 end

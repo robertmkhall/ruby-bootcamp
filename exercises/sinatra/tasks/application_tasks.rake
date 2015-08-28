@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift("#{__dir__}/../spec", "#{__dir__}/../lib")
-require_relative 'support/rack_runner'
+require_relative 'rack_runner'
 require 'routes/bill'
 
 module Application

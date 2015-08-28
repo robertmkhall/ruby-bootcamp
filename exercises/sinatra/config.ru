@@ -6,7 +6,7 @@ require 'app'
 Sinatra::Base.set :root, __dir__
 
 configure(:testing) {
-  Bill.billing_service = BillingService.new("#{__dir__}/spec/resources/test_bill.json")
+  Bill.billing_service = BillingService.new("http://localhost:9494/bill")
 }
 
 map '/' do

@@ -1,9 +1,11 @@
-$LOAD_PATH.unshift("#{__dir__}/../../spec")
+$LOAD_PATH.unshift("#{__dir__}/../../spec", "#{__dir__}/../../lib")
 
 require 'page_magic'
 require 'rspec'
 require 'support/pages/login_page'
 require 'support/pages/bill_page'
+require 'billing_service'
+require 'json'
 
 World(
     Module.new do
