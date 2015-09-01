@@ -2,9 +2,12 @@ require 'authenticator'
 
 describe Authenticator do
 
-  include_context :authentication
-
   subject(:authenticator) { described_class.new }
+
+  let(:valid_username) { Authenticator::USERNAME }
+  let(:valid_password) { Authenticator::PASSWORD }
+  let(:invalid_username) { 'invalid_username' }
+  let(:invalid_password) { 'invalid_password' }
 
   describe '#authenticator' do
     context 'the credentials will be accepted' do

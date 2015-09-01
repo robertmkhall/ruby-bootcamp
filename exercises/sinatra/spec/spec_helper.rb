@@ -7,6 +7,7 @@ require 'rspec'
 require 'json'
 require 'pact'
 require 'pact/consumer/rspec'
+require 'faker'
 
 $LOAD_PATH.unshift("#{__dir__}/../lib")
 

@@ -3,7 +3,7 @@ require 'billing_service'
 describe BillingService do
 
   subject(:billing_service) { described_class.new }
-  let(:valid_username) { 'robertmkhall' }
+  let(:valid_username) { Faker::Internet.user_name }
   let(:invalid_username) { 'invalid_username' }
 
   let(:expected_bill_ids_response) { "{\"ids\":[\"10000001\",\"10000002\"]}" }
@@ -21,7 +21,7 @@ describe BillingService do
           .with({
                     method: :get,
                     path: '/bill',
-                    query: URI::encode('username=' + valid_username)
+                    query: URI::encode("username=#{valid_username}")
                 })
           .will_respond_with({
                                  status: 200,

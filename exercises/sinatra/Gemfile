@@ -23,4 +23,5 @@ group :development do
   gem 'webmock'
   gem 'timecop', '~> 0.8.0'
   gem 'pact'
+  gem 'faker'
 end
