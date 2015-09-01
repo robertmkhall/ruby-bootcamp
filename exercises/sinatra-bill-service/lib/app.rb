@@ -23,7 +23,7 @@ class App < Sinatra::Base
     begin
       billing_service.bill(params[:bill_id])
     rescue BillNotFound
-      404
+      raise Sinatra::NotFound
     end
   end
 end

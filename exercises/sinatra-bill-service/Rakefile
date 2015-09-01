@@ -1,0 +1,16 @@
+require 'pact'
+require 'pact/tasks/verification_task'
+require 'rspec/core/rake_task'
+
+task :spec => ['pact:verify:local']
+
+desc 'Run unit tests'
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = Dir.glob('spec/*_spec.rb')
+end
+
+desc 'verify billing consumer contract'
+Pact::VerificationTask.new(:local) do |pact|
+  pact.uri '~/Projects/ruby-bootcamp/exercises/sinatra/spec/pacts/bill_service_consumer-bill_service_producer.json',
+      support_file: './spec/pacts/pact_helper'
+end
