@@ -12,8 +12,6 @@ describe 'bill.slim' do
     Hashie::Mash.new(JSON.parse(file))
   end
 
-  #TODO - check currency output with £ and 2 decimals
-
   it 'displays the bill statement' do
     expect(page).to have_table('summary')
     expect(session.row(table: 'summary', row: 1)).to have_columns('Generated', '2015-01-11')
