@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'billing_service'
 
 class App < Sinatra::Base
 

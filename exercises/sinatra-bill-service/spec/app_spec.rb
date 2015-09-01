@@ -17,28 +17,6 @@ describe App do
       allow(billing_service).to receive(:bill).with(invalid_bill_id).and_raise(BillNotFound)
     end
 
-    # context 'valid data' do
-    #
-    #   let(:bill) { Fabricate(:bill_valid) }
-    #   let(:bill_id) { bill.id }
-    #
-    #   it 'return the bill as json' do
-    #     expect(last_response.body).to eql(bill.to_json)
-    #   end
-    #
-    # end
-    #
-    # context 'invalid data' do
-    #
-    #   let(:bill) { Fabricate(:bill_valid) }
-    #   let(:bill_id) { bill.id }
-    #
-    #   it 'return the bill as json' do
-    #     expect(last_response.body).to eql(bill.to_json)
-    #   end
-    #
-    # end
-
     it 'returns a bill json' do
       get "/bill/#{valid_bill_id}"
 

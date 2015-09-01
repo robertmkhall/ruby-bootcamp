@@ -9,14 +9,13 @@ describe BillingService do
 
   describe '#bill' do
     let(:expected_file_content) { "{\"name\": \"Some dude\", \"date\": \"01/01/2016\", \"amount\": 999.99}" }
-    let(:expected_hash) { {'name' => 'Some dude', 'date' => '01/01/2016', 'amount' => 999.99} }
 
     before do
       allow(File).to receive(:read).with(BillingService::BILL_PATH).and_return(expected_file_content)
     end
 
     it 'will return the bill as a hash' do
-      expect(subject.bill(valid_bill_id)).to eql(expected_hash)
+      expect(subject.bill(valid_bill_id)).to eql(expected_file_content)
     end
 
     it 'will raise an exception' do

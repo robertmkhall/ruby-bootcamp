@@ -24,8 +24,7 @@ class BillingService
   def bill(bill_id)
     raise BillNotFound unless bill_exists? bill_id
 
-    file = File.read(bill_path)
-    JSON.parse(file)
+    File.read(bill_path)
   end
 
   def bill_ids(username)
