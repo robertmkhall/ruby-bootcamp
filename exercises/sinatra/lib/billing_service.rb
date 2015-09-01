@@ -1,4 +1,20 @@
 require 'addressable/template'
+require 'hashie'
+
+class BillStatement < Hashie::Mash
+
+  def cost
+    format_money(self[:cost])
+  end
+
+  def total
+    format_money(self[:total])
+  end
+
+  def format_money(amount)
+    Money.new(amount.to_f * 100, 'GBP').format
+  end
+end
 
 class BillingService
 
@@ -24,7 +40,8 @@ class BillingService
     translated_url = Addressable::Template.new(request_uri).expand({'bill_id': current_bill_id}).to_s
     current_bill = RestClient.get(translated_url)
 
-    JSON.parse(current_bill)
+    hashed = JSON.parse(current_bill)
+    BillStatement.new(hashed)
   end
 
   def bill_ids(username)

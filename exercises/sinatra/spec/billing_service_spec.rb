@@ -9,7 +9,6 @@ describe BillingService do
   describe '#bill' do
     let(:expected_bill_ids_response) { "{\"ids\": [\"100000001\", \"10000002\"] }"}
     let(:expected_json) { "{\"name\": \"Some dude\", \"date\": \"01/01/2016\", \"amount\": 999.99}" }
-    let(:expected_hash) { {'name' => 'Some dude', 'date' => '01/01/2016', 'amount' => 999.99} }
 
     before do
       stub_request(:get, Addressable::Template.new(subject.query_uri))
@@ -19,7 +18,10 @@ describe BillingService do
     end
 
     it 'will return the bill as a hash' do
-      expect(subject.bill(valid_username)).to eql(expected_hash)
+      actual_bill = subject.bill(valid_username)
+      expect(actual_bill.name).to eq('Some dude')
+      expect(actual_bill.date).to eq("01/01/2016")
+      expect(actual_bill.amount).to eq(999.99)
     end
   end
 end

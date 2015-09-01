@@ -1,14 +1,23 @@
 html
   head
     title User Account Login
+    link href="/css/bootstrap.min.css" rel='stylesheet' type='text/css'
+    link href="/css/form-fields.css" rel='stylesheet' type='text/css'
   body
-    h1 User Account Login
-    h3 Please enter your login details
-    form method='post' action='/login'
-      label for='username' Username
-      input id='username' name='username' type='text'
+    div class='container-fluid'
+      div class='row'
+        div class='col-md-2'
+        div class='col-md-6'
+          h2 User Account Login
+          br
+          form class='form-inline' method='post' action='/login'
+            div class='form-group'
+              label for='username' Username
+              input id='username' class='form-control spaced-field' name='username' type='text'
 
-      label for='password' Password
-      input id='password' name='password' type='password'
+            div class='form-group'
+              label for='password' Password
+              input id='password' class='form-control spaced-field' name='password' type='password'
 
-      input type='submit' id='login_button' name='login_button' value='Login'
+            input type='submit' id='login_button' class='btn btn-default spaced-field' name='login_button' value='Login'
+        div class='col-md-4'

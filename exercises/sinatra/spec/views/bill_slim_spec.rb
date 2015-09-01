@@ -9,7 +9,7 @@ describe 'bill.slim' do
     BILL_PATH = ROOT.join("../resources").join('test_bill.json').to_s
 
     file = File.read(BILL_PATH)
-    JSON.parse(file)
+    Hashie::Mash.new(JSON.parse(file))
   end
 
   #TODO - check currency output with £ and 2 decimals
