@@ -1,4 +1,11 @@
+require 'rspec/core/rake_task'
+
 Bundler.require :development
 Dir["#{__dir__}/tasks/*.rake"].each do |tasks|
   import tasks
+end
+
+desc 'Run unit tests'
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = Dir.glob('spec/*_spec.rb')
 end

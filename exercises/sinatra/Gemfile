@@ -22,4 +22,5 @@ group :development do
   gem 'rake'
   gem 'webmock'
   gem 'timecop', '~> 0.8.0'
+  gem 'pact'
 end
