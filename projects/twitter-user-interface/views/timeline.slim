@@ -1,0 +1,60 @@
+html
+  head
+    script src="js/jquery-2.1.4.min.js"
+    script src="js/bootstrap.min.js"
+    link href="css/bootstrap.css" rel='stylesheet' type ='text/css'
+    link href="css/custom.css" rel='stylesheet' type ='text/css'
+  body
+    div class='col-md-offset-2 col-md-8'
+      p
+        ul class="nav nav-tabs" role="tablist"
+          li role="presentation" class="active"
+            a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab" Timeline
+          li role="presentation"
+            a href="#favourites" aria-controls="favourites" role="tab" data-toggle="tab" Favourites
+          li role="presentation"
+            a href="#mentions" aria-controls="mentions" role="tab" data-toggle="tab" Mentions
+          li role="presentation"
+            a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" Messages
+
+      div class='tab-content'
+        div#timeline class='tab-pane active' role='tabpanel'
+          table class='table'
+            - timeline.each do |tweet|
+              tr class='tweet'
+                td colspan='4' =tweet.text
+              tr class='tweet_info_row tweet_info'
+                td =tweet.user.screen_name
+                td
+                  table
+                    tr class='tweet_info'
+                      td class='tweet_info_table'
+                        img class='tweet_image' src='images/retweet.png'
+                      td
+                        =tweet.retweet_count
+                td =tweet.created_at
+
+        div#favourites class='tab-pane' role='tabpanel'
+          table class='table'
+            - favourites.each do |fav|
+              tr class='tweet'
+                td colspan='2' =fav.text
+              tr class='tweet_info'
+                td =fav.user.screen_name
+                td =fav.created_at
+        div#mentions class='tab-pane' role='tabpanel'
+          table class='table'
+            - mentions.each do |mention|
+              tr class='tweet'
+                td colspan='2' =mention.text
+              tr class='tweet_info'
+                td =mention.user.screen_name
+                td =mention.created_at
+        div#messages class='tab-pane' role='tabpanel'
+          table class='table'
+            - direct_messages.each do |msg|
+              tr class='tweet'
+                td colspan='2' =msg.text
+              tr class='tweet_info'
+                td =msg.user.screen_name
+                td =msg.created_at

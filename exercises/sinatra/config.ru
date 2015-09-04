@@ -11,10 +11,6 @@ configure(:testing) {
   Bill.billing_service = BillingService.new("http://localhost:9494/bill")
 }
 
-# currency = Money::Currency.new("GBP")
-# currency.separator = '.'
-# Money.default_currency = currency
-
 map '/' do
   run Login
 end

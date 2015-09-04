@@ -1,0 +1,19 @@
+.tweet {
+    background-color: white;
+}
+
+.tweet_info_row {
+    background-color: rgba(49, 100, 117, 0.15);
+}
+
+.tweet_info {
+    font-size: small;
+}
+
+.tweet_image {
+    height: 20px;
+}
+
+.tweet_info_table {
+    padding-right: 2px
+}
